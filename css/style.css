@@ -354,11 +354,15 @@ body.menu-open { overflow: hidden; }
 .venue-txt { max-width: 64ch; display: flex; flex-direction: column; gap: 1em; }
 .venue-txt .eyebrow { margin-bottom: 0; }
 .brands { overflow: hidden; padding: 8px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.brands-track { display: flex; gap: 10px; width: max-content; padding: 10px 0; animation: marquee 50s linear infinite; }
+.brands-track { display: flex; width: max-content; animation: marquee 50s linear infinite; }
 .brands:hover .brands-track { animation-play-state: paused; }
-.brands-track li { flex: none; width: clamp(140px, 14vw, 200px); aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: var(--white); border-radius: 14px; padding: 18px; transition: transform .4s var(--ease-out); }
-.brands-track li:hover { transform: translateY(-4px); }
-.brands-track img { width: 100%; height: 100%; object-fit: contain; }
+.brands-track { gap: clamp(28px, 4vw, 64px); padding: 14px 0; }
+.brands-track li { position: relative; flex: none; height: clamp(44px, 5vw, 72px); display: flex; align-items: center; justify-content: center; }
+.brands-track img { height: 100%; width: auto; max-width: clamp(140px, 15vw, 220px); object-fit: contain; transition: opacity .35s; }
+.brands-track .b-mono { opacity: .88; }
+.brands-track .b-color { position: absolute; inset: 0; margin: auto; opacity: 0; }
+.brands-track li:hover .b-mono { opacity: 0; }
+.brands-track li:hover .b-color { opacity: 1; }
 
 /* ---------- MOVIE SET ---------- */
 .sec-movie { border-top: 1px solid var(--line); }
