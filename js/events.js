@@ -12,6 +12,7 @@
   var grid = document.getElementById('live-grid');
   var title = document.getElementById('live-title');
   var count = document.getElementById('live-count');
+  var empty = document.getElementById('live-empty');
   if (!box || !grid || !title || !count) return;
   if (!('fetch' in window)) { box.hidden = true; return; }
 
@@ -100,21 +101,21 @@
     var upcoming = list.filter(function (ev) { return ev._date >= cutoff; }).sort(function (a, b) { return a._date - b._date; });
     var nextCutoff = new Date(cutoff.getTime() + 24 * 3600e3);
     announce({ ok: true, upcoming: upcoming.slice(0, 8).map(function (ev) { return { day: ev._date.getDay(), today: ev._date < nextCutoff }; }) });
-    var past = !upcoming.length, shown;
-    if (past) {
-      shown = list.slice().sort(function (a, b) { return b._date - a._date; }).slice(0, 4);
-      title.textContent = 'Latest';
-      count.textContent = 'Recent nights';
-    } else {
-      shown = upcoming.slice(0, 12);
-      title.textContent = 'Upcoming';
-      var n = upcoming.length;
-      count.textContent = (n > 12 ? '12 of ' + n : String(n)) + (n === 1 ? ' event' : ' events');
+    /* only nights still to come: past events are never shown */
+    var shown = upcoming.slice(0, 12);
+    title.textContent = 'Upcoming';
+    if (!shown.length) {
+      count.textContent = 'No dates published yet';
+      grid.innerHTML = ''; grid.hidden = true;
+      if (empty) empty.hidden = false;
+      reanchor(); return;
     }
-    if (!shown.length) { box.hidden = true; reanchor(); return; }
-    box.classList.toggle('past', past);
+    var n = upcoming.length;
+    count.textContent = (n > 12 ? '12 of ' + n : String(n)) + (n === 1 ? ' event' : ' events');
+    if (empty) empty.hidden = true;
+    grid.hidden = false;
     grid.innerHTML = '';
-    shown.forEach(function (ev) { grid.appendChild(card(ev, past)); });
+    shown.forEach(function (ev) { grid.appendChild(card(ev, false)); });
     var root = document.documentElement;
     if (window.IntersectionObserver && root.classList.contains('js') && !root.classList.contains('no-anim') && !root.classList.contains('reduced')) {
       Array.prototype.forEach.call(grid.children, function (c, i) { c.style.transitionDelay = (i * 60) + 'ms'; c.classList.add('reveal'); requestAnimationFrame(function () { requestAnimationFrame(function () { c.classList.add('in'); }); }); });

@@ -17,7 +17,8 @@ assets/             tutti i media presi dal sito attuale (ottimizzati per il web
   brands/           12 loghi Corporate Venue (originali) + mono/ versioni bianche ritagliate usate sul nero
   posters/          8 locandine Movie Set
   pdf/              Scheda-Tecnica-Room26.pdf, Scheda-Tecnica-Plus.pdf
-  logos/            loghi/favicon originali
+  logos/            loghi/favicon originali (il logo ufficiale è anche vettorializzato inline in index.html: #logo-badge, #logo-wide)
+  app/              icona e screenshot ufficiali della Room26 App (dagli store)
 DESIGN_SPEC.md      specifica di design
 CONTENT.md          inventario dei contenuti originali
 tools/              strumenti di QA (server locale, screenshot headless, verifica testi)
@@ -45,8 +46,9 @@ viene confermato dal feed: se non ci sono serate pubblicate (pausa estiva) non c
 ### Eventi live
 
 `js/events.js` legge gli eventi dall'API pubblica del WordPress attuale:
-`https://www.room26.it/wp-json/wp/v2/events` (CORS aperto). Mostra i prossimi eventi ("Upcoming") o, se la stagione
-non ha ancora date future, gli ultimi pubblicati ("Latest"). Ogni card rimanda alla pagina evento su room26.it.
+`https://www.room26.it/wp-json/wp/v2/events` (CORS aperto). Mostra SOLO i prossimi eventi ("Upcoming"); se non ci sono
+date future pubblicate compare un riquadro "New season dates coming soon" con il rimando all'app. Gli eventi passati non
+vengono mai mostrati. Ogni card rimanda alla pagina evento su room26.it.
 La richiesta usa `per_page=100` con `_fields` annidati (solo i campi usati: ~100 KB raw / ~9 KB gzip) perché la lista
 è ordinata per data di pubblicazione: con 12-24 righe le serate pubblicate con largo anticipo (Capodanno, headliner)
 uscirebbero dalla finestra prima della loro data. Il blocco ha uno skeleton della stessa altezza (nessun salto di layout)

@@ -59,7 +59,7 @@ REQUIRED = [
 ]
 LINKS = ["tel://+393202943332","tel://+393519195320","mailto:info@room26.it","https://instagram.com/room26official","https://www.tiktok.com/@room26official",
  "https://www.facebook.com/room26official","https://twitter.com/room26official","https://www.threads.net/@room26official","https://t.me/room26official",
- "https://whatsapp.com/channel/0029VaCRo4fGpLHJHwVq5m1l","https://apps.apple.com/us/app/room26-club/id6478856480","https://g.page/room26official",
+ "https://whatsapp.com/channel/0029VaCRo4fGpLHJHwVq5m1l","https://apps.apple.com/it/app/room26-club/id6478856480","https://g.page/room26official",
  "https://play.google.com/store/apps/details?id=it.room26.stardance","http://www.goodphellas.it","assets/pdf/Scheda-Tecnica-Room26.pdf","assets/pdf/Scheda-Tecnica-Plus.pdf",
  "https://bit.ly/AppRoom26"]
 raw=''.join(open(f,encoding='utf-8').read() for f in files)
