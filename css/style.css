@@ -102,9 +102,9 @@ dialog { border: 0; padding: 0; }
 .wm-foot .wm-b { border-color: rgba(255, 255, 255, .28); border-width: 1px; }
 
 /* ---------- official logo (vector traced from the club's artwork) ---------- */
-.logo-wide { display: block; height: 24px; width: auto; aspect-ratio: 1570 / 370; color: var(--white); }
-.hero-logo { display: block; width: clamp(200px, 30vw, 440px); height: auto; aspect-ratio: 1620 / 1176; color: var(--white); filter: drop-shadow(0 12px 40px rgba(0, 0, 0, .55)); }
-.foot-logo { display: block; width: clamp(160px, 28vw, 400px); height: auto; aspect-ratio: 1620 / 1176; color: var(--white); opacity: .16; }
+.logo-wide { display: block; height: 24px; width: auto; aspect-ratio: 3120 / 740; color: var(--white); }
+.hero-logo { display: block; width: min(100%, clamp(260px, 78vw, 1100px)); height: auto; aspect-ratio: 3120 / 740; color: var(--white); filter: drop-shadow(0 12px 40px rgba(0, 0, 0, .55)); }
+.foot-logo { display: block; width: min(100%, clamp(220px, 70vw, 1000px)); height: auto; aspect-ratio: 3120 / 740; color: var(--white); opacity: .16; }
 .js .hero-logo { opacity: 0; transform: translateY(24px) scale(.96); animation: rise .9s var(--ease-out) .3s forwards; }
 
 /* ---------- skip link ---------- */
