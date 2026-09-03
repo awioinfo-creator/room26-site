@@ -1,6 +1,7 @@
 /* ROOM26 — main.js (vanilla, progressive enhancement) */
 (function () {
   'use strict';
+  window.__room26 = true; /* tells the inline head script that the enhancements are running */
   var html = document.documentElement;
   var noAnim = html.classList.contains('no-anim') || html.classList.contains('reduced');
   var $ = function (s, c) { return (c || document).querySelector(s); };
@@ -26,12 +27,31 @@
   var menuBtn = $('.menu-btn');
   var overlay = $('#menu-overlay');
   var lastFocus = null;
+  var behind = [$('#content'), $('.site-foot'), $('.skip')].filter(Boolean); /* everything under the overlay */
+  function setInert(on) {
+    behind.forEach(function (el) {
+      if ('inert' in el) el.inert = on;
+      else if (on) el.setAttribute('aria-hidden', 'true'); else el.removeAttribute('aria-hidden');
+    });
+  }
+  function menuFocusables() {
+    return $$('a[href], button', head).concat($$('a[href], button', overlay)).filter(function (el) { return !el.hidden && el.getClientRects().length; });
+  }
+  function trapTab(e) {
+    if (e.key !== 'Tab' || !overlay || overlay.hidden) return;
+    var f = menuFocusables(); if (!f.length) return;
+    var first = f[0], last = f[f.length - 1], cur = document.activeElement, i = f.indexOf(cur);
+    if (i === -1) { e.preventDefault(); first.focus(); }
+    else if (e.shiftKey && cur === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && cur === last) { e.preventDefault(); first.focus(); }
+  }
   function openMenu() {
     if (!overlay) return;
     lastFocus = document.activeElement;
     overlay.hidden = false;
     document.body.classList.add('menu-open');
     menuBtn.setAttribute('aria-expanded', 'true');
+    setInert(true);
     var first = $('a', overlay); if (first) first.focus();
   }
   function closeMenu() {
@@ -39,12 +59,13 @@
     overlay.hidden = true;
     document.body.classList.remove('menu-open');
     menuBtn.setAttribute('aria-expanded', 'false');
+    setInert(false);
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
   if (menuBtn && overlay) {
     menuBtn.addEventListener('click', function () { overlay.hidden ? openMenu() : closeMenu(); });
     $$('a', overlay).forEach(function (a) { a.addEventListener('click', function () { closeMenu(); }); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); else trapTab(e); });
     window.addEventListener('resize', function () { if (window.innerWidth > 1100) closeMenu(); });
   }
 
@@ -124,7 +145,6 @@
   }
 
   /* ---------- manifesto: word-by-word brighten on scroll ---------- */
-  var maniWords = [];
   $$('.mani').forEach(function (p) {
     var text = p.textContent;
     p.textContent = '';
@@ -146,6 +166,24 @@
   if (noAnim) maniWords.forEach(function (w) { w.classList.add('on'); });
   updateManifesto();
 
+  /* ---------- continuous animations: pause while off-screen (battery) ---------- */
+  var loops = $$('.hero-media, .ticker, .names, .brands');
+  if ('IntersectionObserver' in window && loops.length) {
+    var lio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { en.target.classList.toggle('is-off', !en.isIntersecting); });
+    }, { rootMargin: '160px 0px' });
+    loops.forEach(function (el) { lio.observe(el); });
+  }
+
+  /* ---------- residencies: the <=640px snap scroller has no focusable child -> focus the scroller ---------- */
+  var resRow = $('.res-row');
+  if (resRow && window.matchMedia) {
+    var rowMq = window.matchMedia('(max-width: 640px)');
+    var setRowTab = function () { if (rowMq.matches) resRow.setAttribute('tabindex', '0'); else resRow.removeAttribute('tabindex'); };
+    if (rowMq.addEventListener) rowMq.addEventListener('change', setRowTab); else if (rowMq.addListener) rowMq.addListener(setRowTab);
+    setRowTab();
+  }
+
   /* ---------- horizontal strips: prev/next + counter ---------- */
   function stripBy(name) { return document.getElementById(name); }
   $$('[data-strip-prev]').forEach(function (b) {
@@ -159,8 +197,8 @@
     var items = $$('li', gal);
     var pad2 = function (n) { return (n < 10 ? '0' : '') + n; };
     var upd = function () {
-      var x = gal.scrollLeft + 8, idx = 0;
-      for (var i = 0; i < items.length; i++) { if (items[i].offsetLeft - gal.offsetLeft <= x + 1) idx = i; }
+      var base = gal.getBoundingClientRect().left + gal.clientLeft, idx = 0;
+      for (var i = 0; i < items.length; i++) { if (items[i].getBoundingClientRect().left - base <= 8) idx = i; }
       galCount.textContent = pad2(idx + 1) + ' / ' + pad2(items.length);
     };
     gal.addEventListener('scroll', upd, { passive: true }); upd();
@@ -184,6 +222,7 @@
       var links = $$('a[href]', list);
       links.forEach(function (a, i) {
         a.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return; /* let modifier clicks open the file */
           e.preventDefault();
           set = links; opener = a; show(i);
           lb.showModal();

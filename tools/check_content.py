@@ -53,11 +53,11 @@ REQUIRED = [
  "Many film production companies have chosen us as the set for their movies. Room26 not only offers two fully equipped halls designed for club events and a spacious outdoor area, but also provides its staff for the management of the advanced technical equipment available inside the venue. Discover some of the posters from the films shot here",
  # contact
  "Contact & Social","Stay tuned with us through our social channels, our official app, and our direct contacts.",
- "Cell.","Mail","Instagram","Tik Tok","Facebook","Threads","Telegram Channel","Whatsapp Channel","IOS App","Google","Android App",
+ "Cell.","+39 320 294 3332","+39 351 919 5320","Mail","Instagram","Tik Tok","Facebook","Threads","Telegram Channel","Whatsapp Channel","IOS App","Google","Android App",
  # footer
  "Powered by Goodphellas Web Solution","DEP 26 s.r.l.","Piazza Guglielmo Marconi, 31","00144 Roma","P.IVA/C.F. 17992721005","Torna su",
 ]
-LINKS = ["tel://+393202943332","mailto:info@room26.it","https://instagram.com/room26official","https://www.tiktok.com/@room26official",
+LINKS = ["tel://+393202943332","tel://+393519195320","mailto:info@room26.it","https://instagram.com/room26official","https://www.tiktok.com/@room26official",
  "https://www.facebook.com/room26official","https://twitter.com/room26official","https://www.threads.net/@room26official","https://t.me/room26official",
  "https://whatsapp.com/channel/0029VaCRo4fGpLHJHwVq5m1l","https://apps.apple.com/us/app/room26-club/id6478856480","https://g.page/room26official",
  "https://play.google.com/store/apps/details?id=it.room26.stardance","http://www.goodphellas.it","assets/pdf/Scheda-Tecnica-Room26.pdf","assets/pdf/Scheda-Tecnica-Plus.pdf",

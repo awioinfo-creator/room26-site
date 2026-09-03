@@ -31,11 +31,23 @@ Netlify, Vercel, GitHub Pages, ecc.). Nessuna dipendenza server. I font sono car
 
 Vecchi link mantenuti: `#!/club`, `#!/aziendali`, `#!/contact` vengono reindirizzati automaticamente alle nuove sezioni.
 
+Vecchi URL di pagina: `events/index.html` e `set-cinematografici/index.html` sono stub che reindirizzano (meta refresh +
+`location.replace`) a `/#events` e `/#movie-set`, così i link/bookmark a `/events/` e `/set-cinematografici/` non danno 404
+su nessun hosting statico. Per Netlify c'è anche `_redirects` (301); su Apache si può usare in alternativa
+`RewriteRule ^events/?$ /#events [R=301,NE,L]` e `RewriteRule ^set-cinematografici/?$ /#movie-set [R=301,NE,L]`.
+
+`og:image` e il logo del JSON-LD puntano a `https://www.room26.it/assets/logos/…` (asset locali): se il dominio finale è
+diverso, aggiornare i due URL assoluti in `index.html`.
+
 ### Eventi live
 
 `js/events.js` legge gli eventi dall'API pubblica del WordPress attuale:
 `https://www.room26.it/wp-json/wp/v2/events` (CORS aperto). Mostra i prossimi eventi ("Upcoming") o, se la stagione
 non ha ancora date future, gli ultimi pubblicati ("Latest"). Ogni card rimanda alla pagina evento su room26.it.
+La richiesta usa `per_page=100` con `_fields` annidati (solo i campi usati: ~100 KB raw / ~9 KB gzip) perché la lista
+è ordinata per data di pubblicazione: con 12-24 righe le serate pubblicate con largo anticipo (Capodanno, headliner)
+uscirebbero dalla finestra prima della loro data. Il blocco ha uno skeleton della stessa altezza (nessun salto di layout)
+e il confine "Upcoming/Latest" è calcolato in ora di Roma: una serata conta fino alle 06:00 del mattino seguente.
 Se il WordPress viene spento, basta cambiare la costante `API` in `js/events.js` (o rimuovere lo script: i quattro
 format settimanali restano visibili comunque).
 

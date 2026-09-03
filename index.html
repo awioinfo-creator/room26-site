@@ -15,7 +15,9 @@
 <meta property="og:description" content="Storico locale Romano famoso per il suo impianto audio e per i suoi ospiti internazionali. Ideale per i party privati e per le feste aziendali.">
 <meta property="og:url" content="https://www.room26.it/">
 <meta property="og:site_name" content="Room26">
-<meta property="og:image" content="https://www.room26.it/wp-content/uploads/2020/12/logo-01.png">
+<meta property="og:image" content="https://www.room26.it/assets/logos/logo-01.png">
+<meta property="og:image:width" content="400">
+<meta property="og:image:height" content="300">
 <meta property="article:publisher" content="https://www.facebook.com/room26official">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Room26">
@@ -25,7 +27,7 @@
 <link rel="apple-touch-icon" href="assets/logos/fave.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="image" href="assets/gallery/DavidMorales000010.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="assets/gallery/DavidMorales000010.jpg" imagesrcset="assets/gallery/DavidMorales000010-900.jpg 900w, assets/gallery/DavidMorales000010-1400.jpg 1400w, assets/gallery/DavidMorales000010.jpg 1800w" imagesizes="100vw" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <script>
@@ -35,17 +37,26 @@
   h.className = h.className.replace('no-js', 'js');
   var map = { '#!/club': '#club', '#!/aziendali': '#aziendali', '#!/contact': '#contact', '#!/events': '#events', '#!/home': '#top' };
   var hash = location.hash || '';
-  if (map[hash]) { history.replaceState(null, '', map[hash]); }
+  if (map[hash]) {
+    history.replaceState(null, '', map[hash]);
+    window.addEventListener('load', function () {
+      var t = document.getElementById(map[hash].slice(1));
+      if (!t) return;
+      try { t.scrollIntoView({ behavior: 'instant', block: 'start' }); } catch (e) { t.scrollIntoView(true); }
+    });
+  }
   if (hash.indexOf('#__scroll=') === 0) {
     h.classList.add('no-anim');
     var y = parseInt(hash.slice(10), 10) || 0;
     window.addEventListener('load', function () { window.scrollTo({ top: y, left: 0, behavior: 'instant' }); });
   }
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { h.classList.add('reduced'); }
+  /* if main.js never runs (blocked / failed), show everything after a moment */
+  setTimeout(function () { if (!window.__room26) h.classList.add('no-anim'); }, 3500);
 })();
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"NightClub","name":"Room26","url":"https://www.room26.it/","image":"https://www.room26.it/wp-content/uploads/2020/12/logo-01.png","logo":"https://www.room26.it/wp-content/uploads/2020/04/fave.png","description":"Storico locale Romano famoso per il suo impianto audio e per i suoi ospiti internazionali. Ideale per i party privati e per le feste aziendali.","telephone":"+39 320 2943332","email":"info@room26.it","address":{"@type":"PostalAddress","streetAddress":"Piazza Guglielmo Marconi, 31","postalCode":"00144","addressLocality":"Roma","addressCountry":"IT"},"sameAs":["https://www.facebook.com/room26official","https://x.com/room26official","https://instagram.com/room26official"],"parentOrganization":{"@type":"Organization","name":"DEP 26 s.r.l.","vatID":"IT17992721005"}}
+{"@context":"https://schema.org","@type":"NightClub","name":"Room26","url":"https://www.room26.it/","image":"https://www.room26.it/assets/logos/logo-01.png","logo":"https://www.room26.it/assets/logos/fave.png","description":"Storico locale Romano famoso per il suo impianto audio e per i suoi ospiti internazionali. Ideale per i party privati e per le feste aziendali.","telephone":["+39 320 2943332","+39 351 9195320"],"email":"info@room26.it","address":{"@type":"PostalAddress","streetAddress":"Piazza Guglielmo Marconi, 31","postalCode":"00144","addressLocality":"Roma","addressCountry":"IT"},"sameAs":["https://www.facebook.com/room26official","https://x.com/room26official","https://instagram.com/room26official"],"parentOrganization":{"@type":"Organization","name":"DEP 26 s.r.l.","vatID":"IT17992721005"}}
 </script>
 <!-- Cookie banner (iubenda) — enable on the live domain by removing this comment wrapper:
 <script type="text/javascript" class="_iub_cs_skip">
@@ -103,7 +114,7 @@
   <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-overlay"><span class="menu-btn-t">Menu</span><span class="menu-btn-x">Close</span></button>
 </header>
 
-<div id="menu-overlay" class="menu-overlay" hidden>
+<div id="menu-overlay" class="menu-overlay" role="dialog" aria-modal="true" aria-label="Menu" hidden>
   <nav class="menu-nav" aria-label="Menu">
     <ol>
       <li><a href="#top">Home</a></li>
@@ -126,7 +137,7 @@
   <!-- ===================== HERO ===================== -->
   <section class="hero" id="top" aria-label="Room26">
     <picture class="hero-media">
-      <img src="assets/gallery/DavidMorales000010.jpg" width="1800" height="1200" alt="La Main Room di Room26 durante una serata, luci blu e pubblico" fetchpriority="high" decoding="async">
+      <img src="assets/gallery/DavidMorales000010.jpg" srcset="assets/gallery/DavidMorales000010-900.jpg 900w, assets/gallery/DavidMorales000010-1400.jpg 1400w, assets/gallery/DavidMorales000010.jpg 1800w" sizes="100vw" width="1800" height="1200" alt="La Main Room di Room26 durante una serata, luci blu e pubblico" fetchpriority="high" decoding="async">
     </picture>
     <div class="hero-scrim" aria-hidden="true"></div>
     <div class="hero-in">
@@ -161,7 +172,7 @@
   <section class="sec sec-events" id="events" aria-labelledby="events-title">
     <div class="sec-head wrap">
       <p class="eyebrow mono reveal"><span class="num">01</span> Tutti gli eventi</p>
-      <h2 class="title reveal" id="events-title">Ticket &amp; Events</h2>
+      <h2 class="title title-lg reveal" id="events-title">Ticket &amp; Events</h2>
       <p class="sec-intro reveal">Info, guest lists &amp; table reservations: <a href="tel:+393202943332">+39 320 2943332</a> (Call &amp; WhatsApp). Doors open 23:00.</p>
     </div>
 
@@ -170,62 +181,66 @@
         <h3 class="h3 reveal">Every week</h3>
         <p class="mono muted reveal">THU · FRI · SAT · SUN</p>
       </div>
-      <div class="res-row" role="list">
+      <div class="res-row" role="list" aria-label="Format settimanali">
         <article class="res reveal" role="listitem" data-day="4" style="--tint:#ff2a2a">
-          <div class="res-media"><img src="assets/formats/milkshake-square.jpg" width="1080" height="1350" alt="MilkShake Party – Thursday at Room26" loading="lazy" decoding="async"></div>
-          <div class="res-spine" aria-hidden="true">THU</div>
+          <div class="res-media"><img src="assets/gallery/thumbs/Lovra000050.jpg" srcset="assets/gallery/thumbs/Lovra000050.jpg 427w, assets/gallery/Lovra000050.jpg 1200w" sizes="(max-width: 640px) 82vw, (max-width: 1100px) 46vw, 24vw" width="427" height="640" alt="Il pubblico della Main Room di Room26 – Thursday" loading="lazy" decoding="async"></div>
           <div class="res-body">
+            <div class="res-spine" aria-hidden="true">THU</div>
             <p class="eyebrow mono"><span class="res-dayname">Thursday</span><span class="chip res-chip" hidden><i class="dot" aria-hidden="true"></i><span>Tonight</span></span></p>
             <h4 class="res-title">MILKSHAKE PARTY</h4>
-            <p class="res-txt">Thursday night = the best party in town! The legendary MilkShake Party is back at Room26! Since 2001, MilkShake has been the Thursday night institution in Rome’s nightlife, born as a party for lovers of Hip-Hop, R&amp;B, and Dancehall.</p>
+            <p class="res-txt" lang="en">Thursday night = the best party in town! The legendary MilkShake Party is back at Room26! Since 2001, MilkShake has been the Thursday night institution in Rome’s nightlife, born as a party for lovers of Hip-Hop, R&amp;B, and Dancehall.</p>
             <p class="mono muted">Opening Time: 23:00</p>
           </div>
         </article>
         <article class="res reveal" role="listitem" data-day="5" style="--tint:#e31cc2">
-          <div class="res-media"><img src="assets/formats/drip-square.jpg" width="1081" height="1081" alt="DRIP Friday – Friday at Room26" loading="lazy" decoding="async"></div>
-          <div class="res-spine" aria-hidden="true">FRI</div>
+          <div class="res-media"><img src="assets/gallery/thumbs/Kasia000022.jpg" srcset="assets/gallery/thumbs/Kasia000022.jpg 427w, assets/gallery/Kasia000022.jpg 1200w" sizes="(max-width: 640px) 82vw, (max-width: 1100px) 46vw, 24vw" width="427" height="640" alt="Pista di Room26, luci blu – Friday" loading="lazy" decoding="async"></div>
           <div class="res-body">
+            <div class="res-spine" aria-hidden="true">FRI</div>
             <p class="eyebrow mono"><span class="res-dayname">Friday</span><span class="chip res-chip" hidden><i class="dot" aria-hidden="true"></i><span>Tonight</span></span></p>
             <h4 class="res-title">DRIP FRIDAY</h4>
-            <p class="res-txt">Enjoy the Happiness. Enjoy the Drip. DRIP is not just a party, it’s a lifestyle. Friday night at Room26 becomes the home of Urban culture, with the hottest sounds and the freshest style in town.</p>
+            <p class="res-txt" lang="en">Enjoy the Happiness. Enjoy the Drip. DRIP is not just a party, it’s a lifestyle. Friday night at Room26 becomes the home of Urban culture, with the hottest sounds and the freshest style in town.</p>
             <p class="mono muted">Line-up: DJ Fabio Angeli · DJ Mattia Olivi — Urban Beats → Hip-Hop / R&amp;B / Reggaeton / Afro-Beats / Trap</p>
           </div>
         </article>
         <article class="res reveal" role="listitem" data-day="6" style="--tint:#37f58c">
-          <div class="res-media"><img src="assets/formats/100room26-square.jpg" width="1081" height="1081" alt="100% Room26 – Saturday at Room26" loading="lazy" decoding="async"></div>
-          <div class="res-spine" aria-hidden="true">SAT</div>
+          <div class="res-media"><img src="assets/gallery/thumbs/DavidMorales000087.jpg" srcset="assets/gallery/thumbs/DavidMorales000087.jpg 427w, assets/gallery/DavidMorales000087.jpg 1200w" sizes="(max-width: 640px) 82vw, (max-width: 1100px) 46vw, 24vw" width="427" height="640" alt="DJ in console nella Main Room di Room26 – Saturday" loading="lazy" decoding="async"></div>
           <div class="res-body">
+            <div class="res-spine" aria-hidden="true">SAT</div>
             <p class="eyebrow mono"><span class="res-dayname">Saturday</span><span class="chip res-chip" hidden><i class="dot" aria-hidden="true"></i><span>Tonight</span></span></p>
             <h4 class="res-title">100% ROOM26</h4>
-            <p class="res-txt">Saturday nights at Room26 are where the real clubbing experience happens. Join us for a night of pure energy, cutting-edge sound, and the signature Tech House grooves that define our main stage.</p>
+            <p class="res-txt" lang="en">Saturday nights at Room26 are where the real clubbing experience happens. Join us for a night of pure energy, cutting-edge sound, and the signature Tech House grooves that define our main stage.</p>
             <p class="mono muted">Main Room: DJ Miki Stentella — Tech House / Club Beats</p>
           </div>
         </article>
         <article class="res reveal" role="listitem" data-day="0" style="--tint:#ff2d8a">
-          <div class="res-media"><img src="assets/formats/bailame-square.jpg" width="1081" height="1081" alt="Báilame – Sunday at Room26" loading="lazy" decoding="async"></div>
-          <div class="res-spine" aria-hidden="true">SUN</div>
+          <div class="res-media"><img src="assets/gallery/thumbs/TitaLau000102.jpg" srcset="assets/gallery/thumbs/TitaLau000102.jpg 427w, assets/gallery/TitaLau000102.jpg 1200w" sizes="(max-width: 640px) 82vw, (max-width: 1100px) 46vw, 24vw" width="427" height="640" alt="Il pubblico di Room26 – Sunday" loading="lazy" decoding="async"></div>
           <div class="res-body">
+            <div class="res-spine" aria-hidden="true">SUN</div>
             <p class="eyebrow mono"><span class="res-dayname">Sunday</span><span class="chip res-chip" hidden><i class="dot" aria-hidden="true"></i><span>Tonight</span></span></p>
             <h4 class="res-title">BÁILAME</h4>
-            <p class="res-txt">Rome’s most iconic Sunday party — Reggaeton • Latin Club • Urban Dance (Plus Room only — as every Báilame Sunday).</p>
+            <p class="res-txt" lang="en">Rome’s most iconic Sunday party — Reggaeton • Latin Club • Urban Dance (Plus Room only — as every Báilame Sunday).</p>
             <p class="mono muted">Doors open: 23:00</p>
           </div>
         </article>
       </div>
     </div>
 
-    <div class="live wrap" id="live" hidden>
+    <div class="live wrap" id="live">
       <div class="res-head">
         <h3 class="h3" id="live-title">Upcoming</h3>
-        <p class="mono muted" id="live-count"></p>
+        <p class="mono muted" id="live-count" aria-live="polite"></p>
       </div>
-      <div class="live-grid" id="live-grid" aria-live="polite"></div>
+      <div class="live-grid" id="live-grid">
+        <div class="ev ev-skel" aria-hidden="true"><div class="ev-media"></div><div class="ev-body"><i class="sk"></i><i class="sk sk-w"></i><i class="sk sk-s"></i></div></div>
+        <div class="ev ev-skel" aria-hidden="true"><div class="ev-media"></div><div class="ev-body"><i class="sk"></i><i class="sk sk-w"></i><i class="sk sk-s"></i></div></div>
+        <div class="ev ev-skel" aria-hidden="true"><div class="ev-media"></div><div class="ev-body"><i class="sk"></i><i class="sk sk-w"></i><i class="sk sk-s"></i></div></div>
+        <div class="ev ev-skel" aria-hidden="true"><div class="ev-media"></div><div class="ev-body"><i class="sk"></i><i class="sk sk-w"></i><i class="sk sk-s"></i></div></div>
+      </div>
     </div>
 
     <div class="cta-row wrap reveal">
       <a class="btn btn-solid" href="https://bit.ly/AppRoom26" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-ticket"/></svg>Ticket &amp; Events</a>
       <a class="btn btn-line" href="https://www.room26.it/events/" target="_blank" rel="noopener">Tutti gli eventi <svg class="ic" aria-hidden="true"><use href="#i-ext"/></svg></a>
-      <a class="btn btn-ghost" href="tel:+393202943332"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>+39 320 294 3332</a>
     </div>
   </section>
 
@@ -246,7 +261,7 @@
         <div class="ro reveal"><span class="ro-n" data-count="130">130</span><span class="ro-l mono">dB SPL</span></div>
         <div class="ro reveal"><span class="ro-n ro-n-sm"><span data-count="100">100</span>–<span data-count="200">200</span></span><span class="ro-l mono">guests · Plus Room</span></div>
       </aside>
-      <div class="prose">
+      <div class="prose" lang="en">
         <p class="lead reveal">The Room26 Project was born in Rome from a group of entrepreneurs bound by a long-standing friendship, an endless love for music, dance, and art, and years of successful national and international experience in the world of entertainment.</p>
         <p class="reveal">From the very beginning, the vision was clear: to create something Rome had never seen before. A place that draws inspiration from the best experiences around the world, infused with our passions, our visions, and our obsessions.</p>
         <p class="reveal">Our success lies in the ability to truly interpret our audience. The goal is to shape an environment that evolves with the ever-changing tastes and expectations of our guests, while always anticipating their needs and desires.</p>
@@ -255,7 +270,7 @@
       </div>
     </div>
 
-    <div class="manifesto wrap">
+    <div class="manifesto wrap" lang="en">
       <p class="mani mani-1">Room26 is not just a venue.</p>
       <p class="mani mani-2">It is a movement, a state of mind, a sanctuary for those who live and breathe music.</p>
     </div>
@@ -268,40 +283,40 @@
       <div class="meter reveal" id="meter" aria-hidden="true">
         <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
       </div>
-      <dl class="specs">
+      <dl class="specs" lang="en">
         <div class="spec reveal"><dt class="mono">130 dB SPL</dt><dd>The system delivers a sound pressure of 130 dB SPL.</dd></div>
         <div class="spec reveal"><dt class="mono">Topakustik · Fiberform</dt><dd>The acoustic design of the room has been conceived as a true Auditorium for Dance Music: Topakustik wooden flooring and Fiberform materials ensure the ideal absorption coefficient for a flawless acoustic experience</dd></div>
       </dl>
     </div>
 
     <div class="rooms" id="rooms">
-      <article class="room" id="main-room">
+      <div class="room-wrap"><article class="room" id="main-room">
         <img class="room-bg" src="assets/rooms/main-room.jpg" width="1280" height="853" alt="" loading="lazy" decoding="async">
         <div class="room-scrim" aria-hidden="true"></div>
         <div class="room-in wrap">
           <p class="eyebrow mono"><span class="num">Room A</span> Main</p>
           <h3 class="h2">Main Room</h3>
-          <div class="room-txt">
+          <div class="room-txt" lang="en">
             <p>A hall renowned for its sound system, designed to elevate the element of Sound to its absolute highest expression.</p>
             <p>It takes its name from the 26 state-of-the-art CROWN amplifiers, housed within the very “Room26” – the beating heart of the project.</p>
             <p>Behind its DJ booth, internationally acclaimed artists take the stage every week.</p>
           </div>
-          <a class="btn btn-solid" href="assets/pdf/Scheda-Tecnica-Room26.pdf" download="Scheda-Tecnica-Room26.pdf" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Click here to download the MAIN Room Technical Rider</a>
+          <a class="btn btn-solid" href="assets/pdf/Scheda-Tecnica-Room26.pdf" download="Scheda-Tecnica-Room26.pdf"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Click here to download the MAIN Room Technical Rider</a>
         </div>
-      </article>
-      <article class="room" id="plus-room">
+      </article></div>
+      <div class="room-wrap"><article class="room" id="plus-room">
         <img class="room-bg" src="assets/gallery/LaylaBenitez000042.jpg" width="1800" height="1200" alt="" loading="lazy" decoding="async">
         <div class="room-scrim" aria-hidden="true"></div>
         <div class="room-in wrap">
           <p class="eyebrow mono"><span class="num">Room B</span> Plus</p>
           <h3 class="h2">Plus Room</h3>
-          <div class="room-txt">
+          <div class="room-txt" lang="en">
             <p>The true gem of Room26, featuring outstanding acoustics and spacious areas designed to host 100 to 200 guests for private parties and corporate events.</p>
             <p>Every Friday and Saturday, our resident DJs bring you the very best in commercial music</p>
           </div>
-          <a class="btn btn-solid" href="assets/pdf/Scheda-Tecnica-Plus.pdf" download="Scheda-Tecnica-Plus.pdf" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Click here to download the PLUS Room Technical Rider</a>
+          <a class="btn btn-solid" href="assets/pdf/Scheda-Tecnica-Plus.pdf" download="Scheda-Tecnica-Plus.pdf"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Click here to download the PLUS Room Technical Rider</a>
         </div>
-      </article>
+      </article></div>
     </div>
 
     <div class="guests" id="guests">
@@ -353,7 +368,7 @@
       <aside class="rail" aria-label="Corporate Events in breve">
         <p class="rail-note mono reveal">Two multifunctional rooms · Premium service · Prestigious brands</p>
       </aside>
-      <div class="prose">
+      <div class="prose" lang="en">
         <p class="lead reveal">Room26 is not only a legendary club—it’s also one of Rome’s most exclusive venues for corporate events and private parties.</p>
         <p class="reveal">With versatile spaces and a highly professional service, it delivers a truly premium experience.</p>
         <p class="reveal">Its dynamic layout offers endless possibilities for creating engaging and memorable events.</p>
@@ -367,7 +382,7 @@
         <div class="svc-in">
           <p class="eyebrow mono"><span class="num">A</span> Included</p>
           <h3 class="h2">Included Services</h3>
-          <ul class="list">
+          <ul class="list" lang="en">
             <li>Exclusive Venue</li>
             <li>Use of the venue’s in-house audio, video, and lighting system</li>
             <li>Technical support during the event (audio/lighting technician)</li>
@@ -385,7 +400,7 @@
         <div class="svc-in">
           <p class="eyebrow mono"><span class="num">B</span> On request</p>
           <h3 class="h2">Extra Services</h3>
-          <ul class="list">
+          <ul class="list" lang="en">
             <li>Dj</li>
             <li>Live Vocal Performer</li>
             <li>Technical support for LED wall operation (VJ)</li>
@@ -400,14 +415,16 @@
     </div>
 
     <div class="venue wrap">
-      <div class="venue-txt">
+      <div class="venue-head">
         <p class="eyebrow mono reveal"><span class="num">03.3</span> Partners</p>
         <h3 class="h2 reveal">Corporate Venue</h3>
+      </div>
+      <div class="venue-txt" lang="en">
         <p class="lead reveal">Prestigious brands have chosen Room26 as the venue for their corporate events.</p>
         <p class="reveal">Thanks to its versatility and advanced technical features, Room26 has built strong and long-lasting partnerships over the years.</p>
       </div>
     </div>
-    <div class="brands" aria-label="Brand che hanno scelto Room26">
+    <section class="brands" aria-label="Brand che hanno scelto Room26">
       <ul class="brands-track">
         <li><img class="b-mono" src="assets/brands/mono/dhl.png" width="262" height="110" alt="Dhl" loading="lazy" decoding="async"><img class="b-color" src="assets/brands/mono/dhl-color.png" width="262" height="110" alt="" aria-hidden="true" loading="lazy" decoding="async"></li>
         <li><img class="b-mono" src="assets/brands/mono/deca.png" width="262" height="85" alt="Decathlon" loading="lazy" decoding="async"><img class="b-color" src="assets/brands/mono/deca-color.png" width="262" height="85" alt="" aria-hidden="true" loading="lazy" decoding="async"></li>
@@ -434,7 +451,7 @@
         <li aria-hidden="true"><img class="b-mono" src="assets/brands/mono/toscano.png" width="262" height="58" alt="" loading="lazy" decoding="async"><img class="b-color" src="assets/brands/mono/toscano-color.png" width="262" height="58" alt="" aria-hidden="true" loading="lazy" decoding="async"></li>
         <li aria-hidden="true"><img class="b-mono" src="assets/brands/mono/goldman.png" width="262" height="262" alt="" loading="lazy" decoding="async"><img class="b-color" src="assets/brands/mono/goldman-color.png" width="262" height="262" alt="" aria-hidden="true" loading="lazy" decoding="async"></li>
       </ul>
-    </div>
+    </section>
     <div class="cta-row wrap reveal">
       <a class="btn btn-solid" href="#contact"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg>Contacts</a>
       <a class="btn btn-line" href="tel:+393202943332"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>+39 320 294 3332</a>
@@ -447,7 +464,7 @@
     <div class="sec-head wrap">
       <p class="eyebrow mono reveal"><span class="num">04</span> Set cinematografici</p>
       <h2 class="title reveal" id="movie-title">Movie Set</h2>
-      <p class="lead sec-intro reveal">Many film production companies have chosen us as the set for their movies. Room26 not only offers two fully equipped halls designed for club events and a spacious outdoor area, but also provides its staff for the management of the advanced technical equipment available inside the venue. Discover some of the posters from the films shot here</p>
+      <p class="lead sec-intro reveal" lang="en">Many film production companies have chosen us as the set for their movies. Room26 not only offers two fully equipped halls designed for club events and a spacious outdoor area, but also provides its staff for the management of the advanced technical equipment available inside the venue. Discover some of the posters from the films shot here</p>
     </div>
     <div class="strip-head wrap">
       <p class="mono muted">8 posters</p>
@@ -457,14 +474,14 @@
       </div>
     </div>
     <ul class="strip posters" id="posters" data-lightbox="posters">
-      <li><a href="assets/posters/appena-un-minuto.jpg" data-caption="Appena un minuto"><img src="assets/posters/appena-un-minuto.jpg" width="1260" height="1800" alt="Locandina del film Appena un minuto" loading="lazy" decoding="async"></a></li>
-      <li><a href="assets/posters/benedetta-follia.jpg" data-caption="Benedetta follia"><img src="assets/posters/benedetta-follia.jpg" width="358" height="512" alt="Locandina del film Benedetta follia" loading="lazy" decoding="async"></a></li>
-      <li><a href="assets/posters/il-campione.jpg" data-caption="Il campione"><img src="assets/posters/il-campione.jpg" width="1260" height="1800" alt="Locandina del film Il campione" loading="lazy" decoding="async"></a></li>
-      <li><a href="assets/posters/immaturi.jpg" data-caption="Immaturi"><img src="assets/posters/immaturi.jpg" width="800" height="1080" alt="Locandina del film Immaturi" loading="lazy" decoding="async"></a></li>
-      <li><a href="assets/posters/io-loro-e-lara.jpg" data-caption="Io, loro e Lara"><img src="assets/posters/io-loro-e-lara.jpg" width="512" height="506" alt="Locandina del film Io, loro e Lara" loading="lazy" decoding="async"></a></li>
-      <li><a href="assets/posters/poster-2021-02.jpg" data-caption="Speravo de morì prima"><img src="assets/posters/poster-2021-02.jpg" width="550" height="850" alt="Locandina della serie Speravo de morì prima" loading="lazy" decoding="async"></a></li>
-      <li><a href="assets/posters/poster-2021-03.jpg" data-caption="Genitori vs Influencer"><img src="assets/posters/poster-2021-03.jpg" width="1260" height="1800" alt="Locandina del film Genitori vs Influencer" loading="lazy" decoding="async"></a></li>
-      <li><a href="assets/posters/ti-stimo-fratello.jpg" data-caption="Ti stimo fratello"><img src="assets/posters/ti-stimo-fratello.jpg" width="788" height="1080" alt="Locandina del film Ti stimo fratello" loading="lazy" decoding="async"></a></li>
+      <li><a href="assets/posters/appena-un-minuto.jpg" data-caption="Appena un minuto"><img src="assets/posters/thumbs/appena-un-minuto.jpg" width="630" height="900" alt="Locandina del film Appena un minuto" loading="lazy" decoding="async"></a></li>
+      <li><a href="assets/posters/benedetta-follia.jpg" data-caption="Benedetta follia"><img src="assets/posters/thumbs/benedetta-follia.jpg" width="358" height="512" alt="Locandina del film Benedetta follia" loading="lazy" decoding="async"></a></li>
+      <li><a href="assets/posters/il-campione.jpg" data-caption="Il campione"><img src="assets/posters/thumbs/il-campione.jpg" width="630" height="900" alt="Locandina del film Il campione" loading="lazy" decoding="async"></a></li>
+      <li><a href="assets/posters/immaturi.jpg" data-caption="Immaturi"><img src="assets/posters/thumbs/immaturi.jpg" width="667" height="900" alt="Locandina del film Immaturi" loading="lazy" decoding="async"></a></li>
+      <li><a href="assets/posters/io-loro-e-lara.jpg" data-caption="Io, loro e Lara"><img src="assets/posters/thumbs/io-loro-e-lara.jpg" width="512" height="506" alt="Locandina del film Io, loro e Lara" loading="lazy" decoding="async"></a></li>
+      <li><a href="assets/posters/poster-2021-02.jpg" data-caption="Speravo de morì prima"><img src="assets/posters/thumbs/poster-2021-02.jpg" width="550" height="850" alt="Locandina della serie Speravo de morì prima" loading="lazy" decoding="async"></a></li>
+      <li><a href="assets/posters/poster-2021-03.jpg" data-caption="Genitori vs Influencer"><img src="assets/posters/thumbs/poster-2021-03.jpg" width="630" height="900" alt="Locandina del film Genitori vs Influencer" loading="lazy" decoding="async"></a></li>
+      <li><a href="assets/posters/ti-stimo-fratello.jpg" data-caption="Ti stimo fratello"><img src="assets/posters/thumbs/ti-stimo-fratello.jpg" width="657" height="900" alt="Locandina del film Ti stimo fratello" loading="lazy" decoding="async"></a></li>
     </ul>
   </section>
 
@@ -473,10 +490,10 @@
     <div class="sec-head wrap">
       <p class="eyebrow mono reveal"><span class="num">05</span> Contacts</p>
       <h2 class="title reveal" id="contact-title">Contact &amp; Social</h2>
-      <p class="lead sec-intro reveal">Stay tuned with us through our social channels, our official app, and our direct contacts.</p>
+      <p class="lead sec-intro reveal" lang="en">Stay tuned with us through our social channels, our official app, and our direct contacts.</p>
     </div>
     <ul class="contacts wrap" aria-label="Contatti e social">
-      <li class="reveal"><a class="ct" href="tel:+393202943332"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg><span class="ct-l mono">Cell.</span><span class="ct-v">+39 320 294 3332</span></a></li>
+      <li class="reveal"><div class="ct"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg><span class="ct-l mono">Cell.</span><span class="ct-v"><a href="tel:+393202943332">+39 320 294 3332</a><br><a href="tel:+393519195320">+39 351 919 5320</a></span></div></li>
       <li class="reveal"><a class="ct" href="mailto:info@room26.it"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg><span class="ct-l mono">Mail</span><span class="ct-v">info@room26.it</span></a></li>
       <li class="reveal"><a class="ct" href="https://instagram.com/room26official" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-instagram"/></svg><span class="ct-l mono">Instagram</span><span class="ct-v">@room26official</span></a></li>
       <li class="reveal"><a class="ct" href="https://www.tiktok.com/@room26official" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-tiktok"/></svg><span class="ct-l mono">Tik Tok</span><span class="ct-v">@room26official</span></a></li>
@@ -491,7 +508,7 @@
     </ul>
     <div class="reach wrap reveal">
       <p class="eyebrow mono"><span class="num">Find us</span> Roma EUR</p>
-      <p class="reach-txt">Room26 – Piazza Guglielmo Marconi 31, Rome. Metro Line B (Blue Line) towards Laurentina, get off at Eur Palasport: Room26 is just a short walk from the station.</p>
+      <p class="reach-txt" lang="en">Room26 – Piazza Guglielmo Marconi 31, Rome. Metro Line B (Blue Line) towards Laurentina, get off at Eur Palasport: Room26 is just a short walk from the station.</p>
       <a class="btn btn-line" href="https://g.page/room26official" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-map"/></svg>Find Us</a>
     </div>
   </section>
@@ -510,16 +527,16 @@
     </div>
     <div class="foot-col">
       <p class="mono muted">Contacts</p>
-      <p><a href="tel:+393202943332">+39 320 294 3332</a><br><a href="mailto:info@room26.it">info@room26.it</a></p>
+      <p><a href="tel:+393202943332">+39 320 294 3332</a><br><a href="tel:+393519195320">+39 351 919 5320</a><br><a href="mailto:info@room26.it">info@room26.it</a></p>
     </div>
     <div class="foot-col foot-social">
       <p class="mono muted">Social</p>
-      <p>
-        <a href="https://instagram.com/room26official" target="_blank" rel="noopener">Instagram</a> ·
-        <a href="https://www.tiktok.com/@room26official" target="_blank" rel="noopener">Tik Tok</a> ·
-        <a href="https://www.facebook.com/room26official" target="_blank" rel="noopener">Facebook</a> ·
-        <a href="https://twitter.com/room26official" target="_blank" rel="noopener">X</a> ·
-        <a href="https://www.threads.net/@room26official" target="_blank" rel="noopener">Threads</a> ·
+      <p class="foot-links">
+        <a href="https://instagram.com/room26official" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@room26official" target="_blank" rel="noopener">Tik Tok</a>
+        <a href="https://www.facebook.com/room26official" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://twitter.com/room26official" target="_blank" rel="noopener">X</a>
+        <a href="https://www.threads.net/@room26official" target="_blank" rel="noopener">Threads</a>
         <a href="https://t.me/room26official" target="_blank" rel="noopener">Telegram</a>
       </p>
     </div>
@@ -534,7 +551,7 @@
   <button type="button" class="lb-btn lb-close" data-lb-close aria-label="Chiudi"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button>
   <button type="button" class="lb-btn lb-prev" data-lb-prev aria-label="Precedente"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"/></svg></button>
   <figure class="lb-fig">
-    <img id="lb-img" alt="" decoding="async">
+    <img id="lb-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="" decoding="async">
     <figcaption><span id="lb-cap" class="mono"></span><span id="lb-count" class="mono muted"></span></figcaption>
   </figure>
   <button type="button" class="lb-btn lb-next" data-lb-next aria-label="Successiva"><svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></button>
