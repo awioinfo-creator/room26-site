@@ -69,29 +69,37 @@
     window.addEventListener('resize', function () { if (window.innerWidth > 1100) closeMenu(); });
   }
 
-  /* ---------- tonight / next chip (Europe/Rome) ---------- */
+  /* ---------- tonight / next chip — calendar + confirmation from the live feed ---------- */
   (function () {
     var chip = $('#tonight-chip'), label = $('#tonight-label');
-    var day;
-    try {
-      var fmt = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Rome', weekday: 'short', hour: 'numeric', hour12: false });
-      var parts = fmt.formatToParts(new Date());
-      var wd = parts.filter(function (p) { return p.type === 'weekday'; })[0].value;
-      var hour = parseInt(parts.filter(function (p) { return p.type === 'hour'; })[0].value, 10) % 24;
-      day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(wd);
-      if (hour < 6) day = (day + 6) % 7; /* until 6am it is still "tonight" of the previous day */
-    } catch (e) { day = new Date().getDay(); }
     var names = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-    var club = [4, 5, 6, 0];
-    var tonight = club.indexOf(day) > -1;
-    var target = day;
-    if (!tonight) { for (var i = 1; i <= 7; i++) { if (club.indexOf((day + i) % 7) > -1) { target = (day + i) % 7; break; } } }
-    if (chip && label) { label.textContent = (tonight ? 'Tonight' : 'Next') + ' · ' + names[target]; chip.hidden = false; }
-    var card = $('.res[data-day="' + target + '"]');
-    if (card) {
-      card.classList.add('today');
-      var c = $('.res-chip', card); if (c) { c.hidden = false; $('span', c).textContent = tonight ? 'Tonight' : 'Next'; }
+    var club = [4, 5, 6, 0]; /* THU FRI SAT SUN */
+    function romeDay() {
+      try {
+        var parts = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Rome', weekday: 'short', hour: 'numeric', hour12: false }).formatToParts(new Date());
+        var wd = parts.filter(function (p) { return p.type === 'weekday'; })[0].value;
+        var hour = parseInt(parts.filter(function (p) { return p.type === 'hour'; })[0].value, 10) % 24;
+        var d = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(wd);
+        return hour < 6 ? (d + 6) % 7 : d; /* until 6am it is still the previous night */
+      } catch (e) { return new Date().getDay(); }
     }
+    function highlight(dayIdx, tonight) {
+      $$('.res.today').forEach(function (c) { c.classList.remove('today'); var ch = $('.res-chip', c); if (ch) ch.hidden = true; });
+      var card = $('.res[data-day="' + dayIdx + '"]');
+      if (card) { card.classList.add('today'); var c = $('.res-chip', card); if (c) { c.hidden = false; $('span', c).textContent = tonight ? 'Tonight' : 'Next'; } }
+      if (chip && label) { label.textContent = (tonight ? 'Tonight' : 'Next') + ' · ' + names[dayIdx]; chip.hidden = false; }
+    }
+    var day = romeDay(), calendarNext = day;
+    if (club.indexOf(day) === -1) { for (var i = 1; i <= 7; i++) { if (club.indexOf((day + i) % 7) > -1) { calendarNext = (day + i) % 7; break; } } }
+    var done = false;
+    window.addEventListener('room26:events', function (e) {
+      done = true;
+      var d = e.detail || {};
+      if (!d.ok) { highlight(calendarNext, false); return; }   /* feed unavailable: calendar only, never "Tonight" */
+      if (!d.upcoming || !d.upcoming.length) return;           /* no published night: no chip */
+      highlight(d.upcoming[0].day, !!d.upcoming[0].today);
+    });
+    setTimeout(function () { if (!done) highlight(calendarNext, false); }, 8000); /* feed script missing or very slow */
   })();
 
   /* ---------- reveal on scroll ---------- */

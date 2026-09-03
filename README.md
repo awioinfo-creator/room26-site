@@ -13,9 +13,8 @@ js/main.js          header, menu mobile, chip "Tonight/Next", reveal, contatori,
 js/events.js        eventi live dall'API REST WordPress di room26.it (Upcoming / Latest)
 assets/             tutti i media presi dal sito attuale (ottimizzati per il web)
   gallery/          14 foto ospiti internazionali (+ thumbs/ 640px) e 2 foto usate come sfondi
-  formats/          cover dei 4 format settimanali (Milkshake, DRIP, 100% Room26, Báilame)
   rooms/            Main Room, ROOM_3-1, ROOM_7
-  brands/           12 loghi Corporate Venue
+  brands/           12 loghi Corporate Venue (originali) + mono/ versioni bianche ritagliate usate sul nero
   posters/          8 locandine Movie Set
   pdf/              Scheda-Tecnica-Room26.pdf, Scheda-Tecnica-Plus.pdf
   logos/            loghi/favicon originali
@@ -36,8 +35,12 @@ Vecchi URL di pagina: `events/index.html` e `set-cinematografici/index.html` son
 su nessun hosting statico. Per Netlify c'è anche `_redirects` (301); su Apache si può usare in alternativa
 `RewriteRule ^events/?$ /#events [R=301,NE,L]` e `RewriteRule ^set-cinematografici/?$ /#movie-set [R=301,NE,L]`.
 
-`og:image` e il logo del JSON-LD puntano a `https://www.room26.it/assets/logos/…` (asset locali): se il dominio finale è
-diverso, aggiornare i due URL assoluti in `index.html`.
+`og:image` e il logo del JSON-LD puntano per ora a `https://awioinfo-creator.github.io/room26-site/assets/logos/logo-01.png`
+(l'hosting attuale). Al passaggio su room26.it aggiornare i due URL assoluti in `index.html`.
+
+Le card dei quattro format settimanali (Milkshake, DRIP, 100% Room26, Báilame) usano foto del club: le locandine
+reali arrivano dall'API eventi e compaiono nella griglia sotto ("Upcoming" / "Latest"). Il chip "Tonight/Next" nell'hero
+viene confermato dal feed: se non ci sono serate pubblicate (pausa estiva) non compare.
 
 ### Eventi live
 

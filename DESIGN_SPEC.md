@@ -28,8 +28,8 @@ body `clamp(1.0625rem,1.1vw,1.2rem)` lh 1.55 · meta .75rem · readouts `clamp(4
 `--white #fff` · `--paper #f5f5f3` body · `--g30 #b3b3b3` secondary · `--g60 #6b6b6b` muted ·
 `--crown #ff2a2a` signal red (dots, SOLD OUT, focus ring, hover underline; never a surface).
 Day tints (Events only): THU `#ff2a2a` · FRI `#e31cc2` · SAT `#37f58c` · SUN `#ff2d8a`.
-Brand logos are coloured PNGs → they sit on white chips (`#fff`, radius 12px) inside the marquee: the only
-light surface on the site, by design.
+Brand logos: white knock-out renditions (assets/brands/mono) straight on the black, original colours on hover —
+the client asked for no white chips.
 
 ## Layout
 Page padding `clamp(20px, 5vw, 96px)`; 12-col grid max 1600px; hairline rules full-bleed; sections numbered in page
@@ -57,8 +57,8 @@ Mono marquee: `ROOM26 · PIAZZA GUGLIELMO MARCONI, 31 · 00144 ROMA · DOORS OPE
 TABLE RESERVATIONS +39 320 2943332 (CALL & WHATSAPP) · 26 CROWN AMPLIFIERS · 130 dB SPL` (facts from CONTENT.md).
 ### 01 Ticket & Events (`#events`) — placed right after the hero because it is the centrepiece
 Title card "Ticket & Events" + "Tutti gli eventi" eyebrow. (a) Residencies board: 4 cards THU MILKSHAKE PARTY /
-FRI DRIP FRIDAY / SAT 100% ROOM26 / SUN BÁILAME — `assets/formats/*-square.jpg`, giant weekday spine in the
-day tint, name, short verbatim description, "Opening 23:00", the info line with the phone. Horizontal snap
+FRI DRIP FRIDAY / SAT 100% ROOM26 / SUN BÁILAME — club photography from the gallery (the dated flyers live in the
+live grid), giant weekday spine in the day tint under the photo, name, short verbatim description, "Opening 23:00", the info line with the phone. Horizontal snap
 scroll on mobile, 4-col grid on desktop; the current/next night gets the pulsing "TONIGHT/NEXT" chip.
 (b) Live grid: fetch WP REST (see CONTENT.md §5); "Upcoming" (start ≥ today, ascending) or, if none, "Latest"
 (most recent first, 8 cards). Card: cover square (sizes.large → url), date in the old format
@@ -77,7 +77,7 @@ Guests: display marquee of the artist names, then a horizontal filmstrip of the 
 ### 03 Corporate Events (`#aziendali`)
 Title card with `assets/gallery/TitaLau000099.jpg`; intro paragraphs (p1 lead). Two service cards over
 `assets/rooms/ROOM_3-1.jpg` (Included Services) and `assets/rooms/ROOM_7.jpg` (Extra Services), lists with
-animated bullets. "Corporate Venue" H2 + the two sentences + brand marquee (12 logos on white chips, alt texts).
+animated bullets. "Corporate Venue" H2 + the two sentences + brand marquee (12 white logos on black, colour on hover, alt texts).
 CTA: "Contacts" → `#contact`.
 ### 04 Movie Set (`#movie-set`, alias `#set-cinematografici`)
 Title "Movie Set", verbatim paragraph, poster filmstrip (8 posters, hover lift, lightbox).

@@ -91,11 +91,15 @@
     try { window.dispatchEvent(new Event('scroll')); } catch (e2) { /* ignore */ }
   }
 
+  function announce(detail) { try { window.dispatchEvent(new CustomEvent('room26:events', { detail: detail })); } catch (e) { /* old browsers */ } }
+
   function render(list) {
     var cutoff = cutoffDate();
     list.forEach(function (ev) { ev._date = parseDate(ev.acf && ev.acf.start_date); });
     list = list.filter(function (ev) { return ev._date; });
     var upcoming = list.filter(function (ev) { return ev._date >= cutoff; }).sort(function (a, b) { return a._date - b._date; });
+    var nextCutoff = new Date(cutoff.getTime() + 24 * 3600e3);
+    announce({ ok: true, upcoming: upcoming.slice(0, 8).map(function (ev) { return { day: ev._date.getDay(), today: ev._date < nextCutoff }; }) });
     var past = !upcoming.length, shown;
     if (past) {
       shown = list.slice().sort(function (a, b) { return b._date - a._date; }).slice(0, 4);
@@ -123,5 +127,5 @@
   fetch(API, { signal: ctrl ? ctrl.signal : undefined, mode: 'cors', credentials: 'omit' })
     .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
     .then(function (data) { if (timer) clearTimeout(timer); if (Array.isArray(data)) render(data); else throw new Error('bad payload'); })
-    .catch(function () { if (timer) clearTimeout(timer); box.hidden = true; reanchor(); /* silent: residencies remain */ });
+    .catch(function () { if (timer) clearTimeout(timer); box.hidden = true; reanchor(); announce({ ok: false }); /* silent: residencies remain */ });
 })();
